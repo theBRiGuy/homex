@@ -1,0 +1,16 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "server.js",
+  "author": "Brian Wolk",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "puppeteer": "^8.0.0",
+    "puppeteer-extra": "^3.1.18",
+    "puppeteer-extra-plugin-recaptcha": "^3.3.7",
+    "puppeteer-extra-plugin-stealth": "^2.7.6",
+    "user-agents": "^1.0.609"
+  }
+}
