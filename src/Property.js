@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from './Image';
 import Bid from './Bid';
+import { classes } from './utils';
 
 function Property(props) {
 	const baseCls = 'Property';
@@ -12,22 +13,66 @@ function Property(props) {
 		fetch(url)
 			.then((response) => response.json())
 			.then((json) => {
-				setData(json);
+				// Split address into 2 separate parts (stripping out <br> coming from MLS)
+				let [address1, address2] = json.address.split('<br>');
+				setData({ ...json, address1, address2 });
 			})
 			.catch((err) => setErrors(err));
 	}, []);
 
 	return (
-		<div className={`${baseCls}`}>
+		<div className={classes(`${baseCls}`, 'md:flex', 'gap-8')}>
 			{data && (
 				<>
-					<h1
-						className={`${baseCls}__address`}
-						dangerouslySetInnerHTML={{ __html: data.address }}
-					/>
-					<h2 className={`${baseCls}__price`}>{data.price}</h2>
-					<Bid asking={data.price} />
-					<Image image={data.meta.image} alt={data.meta.name} />
+					<div className={classes(`${baseCls}__image`, 'md:w-5/12')}>
+						<Image image={data.meta.image} alt={data.meta.name} />
+					</div>
+					<div
+						className={classes(`${baseCls}__details`, 'md:w-7/12', 'text-left')}
+					>
+						<h1
+							className={classes(
+								`${baseCls}__address1`,
+								'text-green-500',
+								'text-4xl',
+								'font-black',
+								'capitalize',
+								'mt-4'
+							)}
+						>
+							{data.address1.toLowerCase()}
+						</h1>
+						<h2
+							className={classes(
+								`${baseCls}__address2`,
+								'text-green-500',
+								'text-xl',
+								'font-black',
+								'mb-8'
+							)}
+						>
+							{data.address2}
+						</h2>
+						<h2
+							className={classes(
+								`${baseCls}__price`,
+								'font-bold',
+								'text-xl',
+								'mb-8'
+							)}
+						>
+							<span
+								className={classes(`${baseCls}__price__label`, 'font-normal')}
+							>
+								Listed at:&nbsp;
+							</span>
+							<span className={`${baseCls}__price__value font-bold`}>
+								{data.price}
+							</span>
+						</h2>
+						<p className={classes(`${baseCls}__desc`)}>{data.desc}</p>
+						<Bid asking={data.price} />
+					</div>
 				</>
 			)}
 		</div>

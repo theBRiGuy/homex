@@ -32,7 +32,8 @@ const run = (url) => {
 				meta: await page.$eval(jsonLDSel, (el) => JSON.parse(el.innerHTML)),
 				address: await page.$eval('#listingAddress', (el) => el.innerHTML),
 				mls: await page.$eval('#listingMLSNum', (el) => el.innerHTML),
-				price: await page.$eval('#listingPrice', (el) => el.innerHTML)
+				price: await page.$eval('#listingPrice', (el) => el.innerHTML),
+				desc: await page.$eval('#propertyDescriptionCon', (el) => el.innerHTML)
 			};
 			// const pageData = await page.evaluate(() => {
 			// 	return window.dataLayer;
@@ -93,7 +94,6 @@ app.listen(4000, () =>
 );
 
 process.on('SIGINT', function () {
-	console.log('\nGracefully shutting down from SIGINT (Ctrl-C)');
-	// some other closing procedures go here
+	console.log('\nGracefully shutting down server from SIGINT (Ctrl-C)');
 	process.exit(1);
 });
