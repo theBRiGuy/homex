@@ -5,23 +5,42 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 const userAgents = require('user-agents');
 puppeteer.use(StealthPlugin());
 
-const urls = [
-	'https://www.realtor.ca/real-estate/22985131/407-simcoe-st-newmarket-central-newmarket',
-	'https://www.realtor.ca/real-estate/22994599/314-stewart-st-newmarket-gorham-college-manor',
-	'https://www.realtor.ca/real-estate/23005482/169-chisholm-ave-toronto-woodbine-lumsden',
-	'https://www.realtor.ca/real-estate/22979385/22-fontainbleau-dr-toronto-newtonbrook-west'
+const properties = [
+	{
+		url:
+			'https://www.realtor.ca/real-estate/22999492/134-woodmount-ave-toronto-danforth-village-east-york',
+		comps: [
+			{ list: 990000, sold: 1000000 },
+			{ list: 1059000, sold: 1030000 },
+			{ list: 1100000, sold: 1120000 }
+		]
+	},
+	{
+		url:
+			'https://www.realtor.ca/real-estate/22997832/171-avenue-rd-newmarket-central-newmarket',
+		comps: [
+			{ list: 1299000, sold: 1299000 },
+			{ list: 1295000, sold: 1290000 },
+			{ list: 1190000, sold: 1200000 }
+		]
+	}
 ];
 
-const run = (url) => {
+const run = (property) => {
 	return new Promise(async (res, rej) => {
 		try {
 			const browser = await puppeteer.launch();
 			const page = await browser.newPage();
 			// await page.setUserAgent(userAgents.toString());
 			// await page.solveRecaptchas();
-			console.log('url is ', url);
-			await page.goto(url);
-			// await page.waitForSelector('#listingPrice');
+			console.log('property.url is ', property.url);
+
+			await page.setUserAgent(
+				'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36'
+			);
+			await page.goto(property.url);
+			// await page.screenshot({ path: 'screenshot.png' });
+			await page.waitForSelector('#listingPrice');
 			const jsonLDSel = 'script[type="application/ld+json"]';
 			await page.waitForSelector(jsonLDSel);
 			// const dataObj = {
@@ -35,25 +54,6 @@ const run = (url) => {
 				price: await page.$eval('#listingPrice', (el) => el.innerHTML),
 				desc: await page.$eval('#propertyDescriptionCon', (el) => el.innerHTML)
 			};
-			// const pageData = await page.evaluate(() => {
-			// 	return window.dataLayer;
-			// });
-			// console.log('ev is', ev.dataLayer);
-			// let returnedJSON = await page.$$eval('.search-grid__item', (items) => {
-			// 	console.log('items is', items);
-			// 	return items.map((item) => {
-			// 		return {
-			// 			id: item.getAttribute('data-product-number'),
-			// 			title: item.querySelector(
-			// 				'.range-revamp-header-section__title--small'
-			// 			).innerHTML,
-			// 			image: {
-			// 				srcSet: item.querySelector('img').getAttribute('srcset')
-			// 			}
-			// 		};
-			// 	});
-			// });
-			// console.log('returnedJSON is', returnedJSON);
 			await browser.close();
 			return res(pageData);
 		} catch (e) {
@@ -65,28 +65,26 @@ const run = (url) => {
 const app = express();
 app.use(cors());
 
-app.get('/', function (req, res) {
-	console.log(2);
-	run(urls[Math.floor(Math.random() * urls.length + 1) - 1])
-		.then((json) => {
-			console.log(json);
-			res.json(json);
-		})
-		.catch(console.error);
-});
-
 app.get('/:id', function (req, res) {
-	console.log(1);
+	console.log(`Will fetch ID=${req.params.id}`);
 	if (/\d+/.test(req.params.id)) {
-		run(urls[req.params.id - 1])
+		run(properties[req.params.id - 1])
 			.then((json) => {
-				console.log(json);
 				res.json(json);
 			})
 			.catch(console.error);
 	} else {
 		throw new Error('Invalid property ID');
 	}
+});
+
+app.get('/', function (req, res) {
+	console.log('Will fetch RANDOM ID');
+	run(properties[Math.floor(Math.random() * properties.length + 1) - 1])
+		.then((json) => {
+			res.json(json);
+		})
+		.catch(console.error);
 });
 
 app.listen(4000, () =>

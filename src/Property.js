@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from './Image';
 import Bid from './Bid';
+import Spinner from './Spinner';
 import { classes } from './utils';
 
 function Property(props) {
@@ -9,8 +10,9 @@ function Property(props) {
 	const [errors, setErrors] = useState(null);
 
 	useEffect(() => {
-		const url = 'http://localhost:4000/';
-		fetch(url)
+		const currentURL = new URL(window.location);
+		const URLToFetch = `http://localhost:4000${currentURL.pathname}`;
+		fetch(URLToFetch)
 			.then((response) => response.json())
 			.then((json) => {
 				// Split address into 2 separate parts (stripping out <br> coming from MLS)
@@ -21,7 +23,10 @@ function Property(props) {
 	}, []);
 
 	return (
-		<div className={classes(`${baseCls}`, 'md:flex', 'gap-8')}>
+		<div
+			className={classes(`${baseCls}`, 'md:flex', 'gap-8', 'justify-center')}
+		>
+			{!data && <Spinner text="Loading..." />}
 			{data && (
 				<>
 					<div className={classes(`${baseCls}__image`, 'md:w-5/12')}>
