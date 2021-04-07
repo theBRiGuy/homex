@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Image from './Image';
-import Bid from './Bid';
+import Gallery from './Gallery';
+import Bidder from './Bidder';
+import Attributes from './Attributes';
 import Spinner from './Spinner';
 import { classes } from './utils';
 
@@ -30,7 +31,7 @@ function Property(props) {
 			{data && (
 				<>
 					<div className={classes(`${baseCls}__image`, 'md:w-5/12')}>
-						<Image image={data.meta.image} alt={data.meta.name} />
+						<Gallery data={data.gallery} />
 					</div>
 					<div
 						className={classes(`${baseCls}__details`, 'md:w-7/12', 'text-left')}
@@ -52,18 +53,28 @@ function Property(props) {
 								`${baseCls}__address2`,
 								'text-green-500',
 								'text-xl',
-								'font-black',
-								'mb-8'
+								'font-black'
 							)}
 						>
 							{data.address2}
 						</h2>
+						<h3
+							className={classes(
+								`${baseCls}__mls`,
+								'font-light',
+								'text-xl',
+								'mt-1'
+							)}
+						>
+							MLS<sup>&reg;</sup>:&nbsp;
+							{data.mls}
+						</h3>
 						<h2
 							className={classes(
 								`${baseCls}__price`,
 								'font-bold',
 								'text-xl',
-								'mb-8'
+								'mt-8'
 							)}
 						>
 							<span
@@ -75,8 +86,13 @@ function Property(props) {
 								{data.price}
 							</span>
 						</h2>
-						<p className={classes(`${baseCls}__desc`)}>{data.desc}</p>
-						<Bid asking={data.price} />
+						<div className={classes(`${baseCls}__bidder`, 'mt-4')}>
+							<Bidder asking={data.price} completed={75} />
+						</div>
+						<p className={classes(`${baseCls}__desc`, 'mt-8')}>{data.desc}</p>
+						<div className={classes(`${baseCls}__attributes`, 'mt-4')}>
+							<Attributes data={data.attributes} />
+						</div>
 					</div>
 				</>
 			)}

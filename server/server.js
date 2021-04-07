@@ -50,9 +50,30 @@ const run = (property) => {
 			const pageData = {
 				meta: await page.$eval(jsonLDSel, (el) => JSON.parse(el.innerHTML)),
 				address: await page.$eval('#listingAddress', (el) => el.innerHTML),
-				mls: await page.$eval('#listingMLSNum', (el) => el.innerHTML),
+				mls: await page.$eval('#MLNumberVal', (el) => el.innerHTML),
 				price: await page.$eval('#listingPrice', (el) => el.innerHTML),
-				desc: await page.$eval('#propertyDescriptionCon', (el) => el.innerHTML)
+				desc: await page.$eval('#propertyDescriptionCon', (el) => el.innerHTML),
+				attributes: await page.$$eval(
+					'.propertyDetailsSectionContentSubCon',
+					(arr) => {
+						return arr.map((el) => {
+							return {
+								label: el.querySelector('.propertyDetailsSectionContentLabel')
+									.innerHTML,
+								value: el.querySelector('.propertyDetailsSectionContentValue')
+									.innerHTML
+							};
+						});
+					}
+				),
+				gallery: await page.$$eval('#listingPhotoCarousel a', (arr) => {
+					return arr.map((a) => {
+						return {
+							full: a.getAttribute('href'),
+							thumb: a.querySelector('img').getAttribute('src')
+						};
+					});
+				})
 			};
 			await browser.close();
 			return res(pageData);
