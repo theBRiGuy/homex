@@ -60,6 +60,7 @@ function Gallery(props) {
 						`${baseCls}__cycler__count`,
 						'text-7xl',
 						'opacity-25',
+						'font-bold',
 						'w-48'
 					)}
 				>

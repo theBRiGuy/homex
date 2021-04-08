@@ -8,19 +8,23 @@ puppeteer.use(StealthPlugin());
 const properties = [
 	{
 		url:
-			'https://www.realtor.ca/real-estate/22999492/134-woodmount-ave-toronto-danforth-village-east-york',
-		comps: [
+			'https://www.realtor.ca/real-estate/23025701/87-frater-ave-toronto-danforth-village-east-york',
+		comps: [990000, 995000, 997000, 1000000, 1025000],
+		solds: [
 			{ list: 990000, sold: 1000000 },
 			{ list: 1059000, sold: 1030000 },
-			{ list: 1100000, sold: 1120000 }
+			{ list: 1100000, sold: 1050000 },
+			{ list: 995000, sold: 900000 },
+			{ list: 999000, sold: 1050000 }
 		]
 	},
 	{
 		url:
-			'https://www.realtor.ca/real-estate/22997832/171-avenue-rd-newmarket-central-newmarket',
-		comps: [
-			{ list: 1299000, sold: 1299000 },
-			{ list: 1295000, sold: 1290000 },
+			'https://www.realtor.ca/real-estate/23034407/321-dowson-loop-newmarket-woodland-hill',
+		comps: [899000, 1015000, 1050000],
+		solds: [
+			{ list: 999000, sold: 1000000 },
+			{ list: 899000, sold: 899000 },
 			{ list: 1190000, sold: 1200000 }
 		]
 	}
@@ -47,19 +51,33 @@ const run = (property) => {
 			// 	price: await page.$eval('#listingPrice', (el) => el.innerHTML)
 			// };
 			// console.log('dataObj is ', dataObj);
+
 			const pageData = {
 				meta: await page.$eval(jsonLDSel, (el) => JSON.parse(el.innerHTML)),
 				address: await page.$eval('#listingAddress', (el) => el.innerHTML),
 				mls: await page.$eval('#MLNumberVal', (el) => el.innerHTML),
 				price: await page.$eval('#listingPrice', (el) => el.innerHTML),
+				comps: property.comps,
+				solds: property.solds,
 				desc: await page.$eval('#propertyDescriptionCon', (el) => el.innerHTML),
 				attributes: await page.$$eval(
 					'.propertyDetailsSectionContentSubCon',
 					(arr) => {
 						return arr.map((el) => {
+							const replaceLabel = (label) => {
+								const replaceObj = {
+									Total: 'Total Bathrooms',
+									'Above Grade': 'Bedrooms Above Grade'
+								};
+
+								return replaceObj[label] ? replaceObj[label] : label;
+							};
+
 							return {
-								label: el.querySelector('.propertyDetailsSectionContentLabel')
-									.innerHTML,
+								label: replaceLabel(
+									el.querySelector('.propertyDetailsSectionContentLabel')
+										.innerHTML
+								),
 								value: el.querySelector('.propertyDetailsSectionContentValue')
 									.innerHTML
 							};

@@ -1,38 +1,71 @@
-import React from 'react';
-import { classes } from './utils';
+import React, { useEffect, useState } from 'react';
+import { classes, findRange, formatPrice, priceValueFromString } from './utils';
 
-function Bid(props) {
-	const { completed } = props;
+function Bidder(props) {
+	const baseCls = 'Bidder';
+	const { listPrice, solds } = props;
+	const [soldsRange, setSoldsRange] = useState(null);
 
-	const baseCls = 'Bid';
+	useEffect(() => {
+		if (solds) {
+			setSoldsRange(findRange(solds.map((property) => property.sold)));
+		}
+	}, [solds]);
+
 	return (
-		<div
-			className={classes(
-				`${baseCls}`,
-				'h-6',
-				'w-full',
-				'bg-gray-400',
-				'rounded-full'
+		<div className={baseCls}>
+			{soldsRange && (
+				<>
+					<div
+						className={classes(
+							`${baseCls}`,
+							'h-6',
+							'w-full',
+							'bg-indigo-400',
+							'rounded-full'
+						)}
+					>
+						<div className={classes('relative')}>
+							<div
+								className={classes(
+									`${baseCls}__filler`,
+									'bg-indigo-600',
+									'rounded-full',
+									'text-right',
+									'inline-block',
+									'h-6',
+									'absolute',
+									'text-white',
+									'px-2'
+								)}
+								style={{
+									left: `${
+										((priceValueFromString(listPrice) - soldsRange.low) /
+											(soldsRange.high - soldsRange.low)) *
+										100
+									}%`,
+									transform: 'translateX(-50%)'
+								}}
+							>
+								(this property)
+							</div>
+						</div>
+					</div>
+					<div
+						className={classes(
+							`${baseCls}__labels`,
+							'w-full',
+							'flex',
+							'justify-between'
+						)}
+					>
+						<div>{formatPrice(soldsRange.low)} (low)</div>
+						<div>{formatPrice(soldsRange.high)} (high)</div>
+					</div>
+				</>
 			)}
-		>
-			<div>
-				<span
-					className={classes(
-						`${baseCls}__filler`,
-						'h-full',
-						'bg-red-400',
-						'rounded-full',
-						'text-right',
-						'inline-block',
-						'h-6'
-					)}
-					style={{
-						width: `${completed}%`
-					}}
-				>{`${completed}%`}</span>
-			</div>
 		</div>
 	);
 }
 
-export default Bid;
+export default Bidder;

@@ -22,7 +22,7 @@ function Attributes(props) {
 						className={classes(
 							`${baseCls}__item`,
 							'rounded-lg',
-							'bg-indigo-500',
+							'bg-indigo-600',
 							'shadow-md',
 							'p-2',
 							'text-white'
@@ -35,7 +35,8 @@ function Attributes(props) {
 							className={classes(
 								`${baseCls}__item__value`,
 								'font-bold',
-								'text-sm'
+								'text-md',
+								'leading-tight'
 							)}
 							dangerouslySetInnerHTML={{ __html: value }}
 						></div>
