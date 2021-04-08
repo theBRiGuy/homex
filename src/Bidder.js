@@ -47,7 +47,7 @@ function Bidder(props) {
 									transform: 'translateX(-50%)'
 								}}
 							>
-								(this property)
+								this property
 							</div>
 						</div>
 					</div>

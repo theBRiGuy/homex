@@ -141,7 +141,7 @@ function Property(props) {
 										`${baseCls}__current-comparables__range__avg`
 									)}
 								>
-									Avg. comparable{' '}
+									Average comparable{' '}
 									<span className={classes('text-md', 'font-bold')}>
 										{formatPrice(compsRange.avg)}
 									</span>
