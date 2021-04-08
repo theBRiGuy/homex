@@ -30,7 +30,8 @@ function Gallery(props) {
 			<img
 				className={classes(`${baseCls}__image`, 'shadow-lg')}
 				src={data[currentImageIndex].full}
-				alt=""
+				alt="property image"
+				aria-live="polite"
 			/>
 			<div
 				className={classes(
@@ -66,6 +67,7 @@ function Gallery(props) {
 						'text-center'
 					)}
 					aria-label={`image ${currentImageIndex + 1} of ${data.length}`}
+					aria-live="polite"
 				>
 					{currentImageIndex + 1}/{data.length}
 				</span>
