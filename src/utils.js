@@ -13,7 +13,7 @@ export const useKeyPress = (key, action, deps = []) => {
 };
 
 export const formatPrice = (price) => {
-	return `$${price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')}`;
+	return `$${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
 };
 
 export const priceValueFromString = (strPrice) => {

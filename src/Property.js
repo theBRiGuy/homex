@@ -27,12 +27,18 @@ function Property(props) {
 	useEffect(() => {
 		if (data) {
 			setCompsRange(findRange(data.comps));
+			document.title = `HomeEx: ${data.meta.name}`;
 		}
 	}, [data]);
 
 	return (
 		<div
-			className={classes(`${baseCls}`, 'md:flex', 'gap-8', 'justify-center')}
+			className={classes(
+				`${baseCls}`,
+				'md:flex',
+				'space-x-8',
+				'justify-center'
+			)}
 		>
 			{!data && <Spinner text="Loading..." />}
 			{data && (
@@ -46,7 +52,7 @@ function Property(props) {
 						<h1
 							className={classes(
 								`${baseCls}__address1`,
-								'text-green-500',
+								'text-green-600',
 								'text-4xl',
 								'font-black',
 								'capitalize',
@@ -58,7 +64,7 @@ function Property(props) {
 						<h2
 							className={classes(
 								`${baseCls}__address2`,
-								'text-green-500',
+								'text-green-600',
 								'text-xl',
 								'font-black'
 							)}

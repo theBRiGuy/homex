@@ -44,9 +44,10 @@ function Gallery(props) {
 				<button
 					className={classes(`${baseCls}__cycler__prev`)}
 					onClick={prevImage}
+					aria-label="previous photo"
 				>
 					<svg
-						className="opacity-25"
+						className="opacity-50"
 						xmlns="http://www.w3.org/2000/svg"
 						width="75"
 						height="75"
@@ -59,9 +60,10 @@ function Gallery(props) {
 					className={classes(
 						`${baseCls}__cycler__count`,
 						'text-7xl',
-						'opacity-25',
+						'opacity-50',
 						'font-bold',
-						'w-48'
+						'w-48',
+						'text-center'
 					)}
 				>
 					{currentImageIndex + 1}/{data.length}
@@ -69,9 +71,10 @@ function Gallery(props) {
 				<button
 					className={classes(`${baseCls}__cycler__next`)}
 					onClick={nextImage}
+					aria-label="next photo"
 				>
 					<svg
-						className="opacity-25"
+						className="opacity-50"
 						xmlns="http://www.w3.org/2000/svg"
 						width="75"
 						height="75"

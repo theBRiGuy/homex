@@ -4,7 +4,7 @@
 
 @layer components {
 	.heading-2 {
-		@apply text-lg mt-8 text-2xl font-bold text-gray-400;
+		@apply text-lg mt-8 text-2xl font-bold text-gray-500;
 	}
 }
 

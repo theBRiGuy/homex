@@ -36,7 +36,6 @@ const run = (property) => {
 			const browser = await puppeteer.launch();
 			const page = await browser.newPage();
 			// await page.setUserAgent(userAgents.toString());
-			// await page.solveRecaptchas();
 			console.log('property.url is ', property.url);
 
 			await page.setUserAgent(
@@ -47,11 +46,8 @@ const run = (property) => {
 			await page.waitForSelector('#listingPrice');
 			const jsonLDSel = 'script[type="application/ld+json"]';
 			await page.waitForSelector(jsonLDSel);
-			// const dataObj = {
-			// 	price: await page.$eval('#listingPrice', (el) => el.innerHTML)
-			// };
-			// console.log('dataObj is ', dataObj);
 
+			// JSON data that will be returned by the server
 			const pageData = {
 				meta: await page.$eval(jsonLDSel, (el) => JSON.parse(el.innerHTML)),
 				address: await page.$eval('#listingAddress', (el) => el.innerHTML),
@@ -104,6 +100,7 @@ const run = (property) => {
 const app = express();
 app.use(cors());
 
+// e.g. http://localhost:3000/1 - fetch a specific property ID from properties array
 app.get('/:id', function (req, res) {
 	console.log(`Will fetch ID=${req.params.id}`);
 	if (/\d+/.test(req.params.id)) {
@@ -117,6 +114,7 @@ app.get('/:id', function (req, res) {
 	}
 });
 
+// e.g. http://localhost:3000/ - fetch a random property ID from properties array
 app.get('/', function (req, res) {
 	console.log('Will fetch RANDOM ID');
 	run(properties[Math.floor(Math.random() * properties.length + 1) - 1])
@@ -127,9 +125,10 @@ app.get('/', function (req, res) {
 });
 
 app.listen(4000, () =>
-	console.log('Express Server Now Running On localhost:4000')
+	console.log('Express server Now Running On localhost:4000')
 );
 
+// Gracefully shutdown server e.g. when pressing ctrl-C in terminal
 process.on('SIGINT', function () {
 	console.log('\nGracefully shutting down server from SIGINT (Ctrl-C)');
 	process.exit(1);

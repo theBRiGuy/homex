@@ -18,6 +18,8 @@ function Spinner(props) {
 				'font-bold'
 			)}
 			disabled
+			role={alert}
+			aria-busy="true"
 		>
 			<svg
 				className="animate-spin h-5 w-5 mr-3"

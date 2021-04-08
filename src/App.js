@@ -1,5 +1,3 @@
-import logo from './logo.svg';
-import './App.css';
 import Property from './Property';
 import { classes } from './utils';
 
@@ -22,14 +20,14 @@ function App() {
 						'border-black'
 					)}
 				>
-					Home<span className={classes('text-gray-400')}>Ex</span>
+					Home<span className={classes('text-gray-500')}>Ex</span>
 				</h1>
 			</header>
 			<main className={classes(`${baseCls}__main`, 'm-8')}>
 				<Property />
 			</main>
 			<footer className={`${baseCls}__footer`}>
-				<h6
+				<p
 					className={classes(
 						`${baseCls}__footer__copyright`,
 						'text-left',
@@ -39,7 +37,7 @@ function App() {
 					)}
 				>
 					HomeEx demo by Brian Wolk
-				</h6>
+				</p>
 			</footer>
 		</div>
 	);
