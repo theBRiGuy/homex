@@ -21,7 +21,6 @@ export const priceValueFromString = (strPrice) => {
 };
 
 export const findRange = (priceArr) => {
-	console.log('priceArr is', priceArr);
 	const sortedPriceArr = priceArr.sort((a, b) => a - b);
 	return {
 		low: sortedPriceArr[0],

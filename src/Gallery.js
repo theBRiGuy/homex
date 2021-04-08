@@ -65,6 +65,7 @@ function Gallery(props) {
 						'w-48',
 						'text-center'
 					)}
+					aria-label={`image ${currentImageIndex + 1} of ${data.length}`}
 				>
 					{currentImageIndex + 1}/{data.length}
 				</span>
