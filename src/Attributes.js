@@ -15,7 +15,7 @@ function Attributes(props) {
 				'auto-rows-fr'
 			)}
 		>
-			{data.map((attrItem) => {
+			{data.map((attrItem, idx) => {
 				const { label, value } = attrItem;
 				return (
 					<div
@@ -27,6 +27,7 @@ function Attributes(props) {
 							'p-2',
 							'text-white'
 						)}
+						key={idx}
 					>
 						<div className={classes(`${baseCls}__item__label`, 'text-xs')}>
 							{label}
