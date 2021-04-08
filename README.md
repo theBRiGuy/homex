@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# Getting Started with HomeEx
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## About
 
-In the project directory, you can run:
+HomeEx is an exercise in scraping various MLS.ca properties using headless Chrome (Puppeteer), and displaying the actual property data in a different way in a React app.
 
-### `yarn start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### On Client
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- React JS (with hooks, not classes)
+- Tailwind CSS for styling and layout
 
-### `yarn test`
+#### On Server
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Express.js
+- Puppeteer (headless Chrome for obtaining data)
 
-### `yarn build`
+## To Install
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+After cloning, follow these steps:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Install the server packages
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+$ cd server
+$ yarn install
+```
 
-### `yarn eject`
+2. Install the client packages
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+$ cd ..
+$ yarn install
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## To Run
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+1. Start dev environment
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+$ yarn start:dev
+```
 
-## Learn More
+2. Visit one of the following URLs:
+   - http://localhost:3000 (for a random, pre-configured property)
+   - http://localhost:3000/1 (for property ID 1)
+   - http://localhost:3000/2 (for property ID 2)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Notes
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Often, the preconfigured properties are taken down (they have sold). There is currently no error handling for this case, so if a property is taking a long time to load, it is likely the property is gone and a new one will need to be configured in _server.js_.
+2. Although list price comes from actual data, comparable and sold data are mocked inside _server.js_. In the real world, these could come from an existing API, which would intelligently select comparable properties, both on-the-market and recently sold.
